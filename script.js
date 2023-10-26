@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const spinSpeedInput = document.getElementById("spin-speed");
     const waterLevelInput = document.getElementById("water-level");
     const backgroundElement = document.querySelector(".background");
+    const elapsedTimeElement = document.getElementById("elapsed-time");
+    
+    let totalElapsedTime = 0;
+
 
     let isRunning = false;
     let currentStep = 0;
@@ -36,19 +40,31 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 if (isRunning) {
                     currentStep++;
+                    totalElapsedTime += steps[step].delay / 1000; 
                     updateStatus(currentStep);
                 }
             }, steps[step].delay);
         } else {
             isRunning = false;
             finishSound.play();
+            displayTotalTime(totalElapsedTime)
         }
+    }
+    function displayTotalTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+
+        const formattedTime = `${hours}h ${minutes}m ${remainingSeconds}s`;
+
+        elapsedTimeElement.textContent = `Total Time: ${formattedTime}`;
     }
 
     startButton.addEventListener("click", function () {
         if (!isRunning) {
             isRunning = true;
             currentStep = 0;
+            totalElapsedTime = 0; 
             updateStatus(currentStep);
         }
     });
@@ -58,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
             isRunning = false;
             statusElement.textContent = "Idle";
             backgroundElement.style.backgroundImage = `url('idle.jpg')`; // Set the idle background image
+            elapsedTimeElement.textContent = ""; 
         }
     });
 });
