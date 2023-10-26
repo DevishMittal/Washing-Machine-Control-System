@@ -50,15 +50,18 @@ document.addEventListener("DOMContentLoaded", function () {
             displayTotalTime(totalElapsedTime)
         }
     }
-    function displayTotalTime(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
 
-        const formattedTime = `${hours}h ${minutes}m ${remainingSeconds}s`;
+function displayTotalTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
 
-        elapsedTimeElement.textContent = `Total Time: ${formattedTime}`;
-    }
+    const formattedTime = `${hours}h ${minutes}m ${remainingSeconds}s`;
+
+    const totalTimeElement = document.getElementById("total-time");
+    totalTimeElement.textContent = `Total Time: ${formattedTime}`;
+}
+
 
     startButton.addEventListener("click", function () {
         if (!isRunning) {
